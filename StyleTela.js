@@ -13,7 +13,7 @@ const TelaSimples = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `https://apiv3.apifootball.com/?action=get_players&player_name=${playerName}&APIkey=05a75fa161a8f6924e33fc465fd1845d251326858ee461546bd7b154527e0855`
+        `https://apiv3.apifootball.com/?action=get_players&player_name=${playerName}&APIkey=putTheKey`
       );
 
       if (response.data && response.data.length > 0) {
