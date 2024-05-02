@@ -14,7 +14,7 @@ const TelaSimples = () => {
   const fetchLeagueData = async () => {
     try {
       const response = await axios.get(
-        'https://apiv3.apifootball.com/?action=get_teams&league_id=99&APIkey=73dfd9fe47fea905a22286fb8e3b45b2fcc9c30686927ff8463083e4dbb36f3c'
+        'https://apiv3.apifootball.com/?action=get_teams&league_id=99&APIkey='
       );
 
       if (response.data && response.data.length > 0) {
