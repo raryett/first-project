@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Image, ImageBackground, StyleSheet, TextInput, FlatList } from 'react-native';
+import { View, Text, Button, Image, ImageBackground, StyleSheet, TextInput, ScrollView, FlatList } from 'react-native';
 import axios from 'axios';
 
 // Caminho para a imagem de fundo no seu projeto
-const backgroundImage = require('./assets/jogador.jpg');
+const backgroundImage = require('./assets/Champions3.jpg');
 
 const TelaSimples = () => {
   const [info, setInfo] = useState('Clique no botão para pesquisar');
@@ -14,7 +14,7 @@ const TelaSimples = () => {
   const fetchLeagueData = async () => {
     try {
       const response = await axios.get(
-        'https://apiv3.apifootball.com/?action=get_teams&league_id=99&APIkey='
+        'https://apiv3.apifootball.com/?action=get_teams&league_id=99&APIkey=73dfd9fe47fea905a22286fb8e3b45b2fcc9c30686927ff8463083e4dbb36f3c'
       );
 
       if (response.data && response.data.length > 0) {
@@ -50,48 +50,55 @@ const TelaSimples = () => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Digite o nome do time"
-          value={teamName}
-          onChangeText={setTeamName}
-        />
-        
-        <View style={styles.buttonContainer}>
-          <Button title="Carregar Dados da Liga" onPress={fetchLeagueData} />
-          <Button title="Pesquisar Time" onPress={searchTeam} />
-          <Button title="Limpar" onPress={() => {
-            setTeamName('');
-            setTeamDetails(null);
-            setInfo('Clique para pesquisar um time');
-          }} />
-        </View>
-
-        {teamDetails ? (
-          <View style={styles.teamDetails}>
-            <Image source={{ uri: teamDetails.teamLogo }} style={styles.teamLogo} />
-            <Text>Nome: {teamDetails.teamName}</Text>
-            <Text>País: {teamDetails.teamCountry}</Text>
-
-            <Text style={styles.title}>Jogadores</Text>
-
-            <FlatList
-              data={teamDetails.players} // Lista de jogadores
-              keyExtractor={(item) => item.player_key.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.playerItem}>
-                  <Image source={{ uri: item.player_image }} style={styles.playerImage} />
-                  <Text>{item.player_name}</Text>
-                  <Text>    {item.player_number}</Text>
-                </View>
-              )}
-            />
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder="Digite o nome do time"
+            value={teamName}
+            onChangeText={setTeamName}
+          />
+          
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonWrapper}>
+              <Button title="Carregar Dados da Liga" onPress={fetchLeagueData} />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button title="Pesquisar Time" onPress={searchTeam} />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button title="Limpar" onPress={() => {
+                setTeamName('');
+                setTeamDetails(null);
+                setInfo('Clique para pesquisar um time');
+              }} />
+            </View>
           </View>
-        ) : (
-          <Text style={styles.label}>{info}</Text>
-        )}
-      </View>
+
+          {teamDetails ? (
+            <View style={styles.teamDetails}>
+              <Image source={{ uri: teamDetails.teamLogo }} style={styles.teamLogo} />
+              <Text>Nome: {teamDetails.teamName}</Text>
+              <Text>País: {teamDetails.teamCountry}</Text>
+              <Text style={styles.title}>Jogadores</Text>
+
+              <FlatList
+                data={teamDetails.players} // Lista de jogadores
+                keyExtractor={(item) => item.player_key.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.playerItem}>
+                    <Image source={{ uri: item.player_image }} style={styles.playerImage} />
+                    <Text>{item.player_name}</Text>
+                    <Text>    {item.player_number}</Text>
+                  </View>
+                )}
+              />
+            </View>
+          ) : (
+            <Text style={styles.label}>{info}</Text>
+          )}
+        </View>
+      </ScrollView>
     </ImageBackground>
   );
 };
@@ -103,30 +110,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 60,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    padding: 40,
-    borderRadius: 30,
+    padding: 20,
+    borderRadius: 20,
+    width: 350,
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
-    marginBottom: 10,
+    marginBottom: 20, // Espaço entre o input e os botões
   },
   buttonContainer: {
-    flexDirection: 'row',
     justifyContent: 'space-between', // Para separar os botões
-    marginBottom: 10,
+    marginBottom: 20, // Espaço entre os botões e os detalhes do time
+  },
+  buttonWrapper: {
+    marginBottom: 10, // Margem entre os botões
   },
   teamDetails: {
     alignItems: 'center', // Centraliza os detalhes do time
   },
   teamLogo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 150,
+    height: 150,
     marginVertical: 10,
   },
   playerItem: {
