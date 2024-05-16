@@ -3,7 +3,7 @@ import { View, Text, Button, Image, ImageBackground, StyleSheet, TextInput } fro
 import axios from 'axios';
 
 // Caminho para a imagem de fundo no seu projeto
-const backgroundImage = require('./assets/jogador.jpg');
+const backgroundImage = require('./assets/Champions2.jpg');
 
 const TelaSimples = () => {
   const [info, setInfo] = useState('Clique no botão para pesquisar');
@@ -13,7 +13,7 @@ const TelaSimples = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `https://apiv3.apifootball.com/?action=get_players&player_name=${playerName}&APIkey=`
+        `https://apiv3.apifootball.com/?action=get_players&player_name=${playerName}&APIkey=73dfd9fe47fea905a22286fb8e3b45b2fcc9c30686927ff8463083e4dbb36f3c`
       );
 
       if (response.data && response.data.length > 0) {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     padding: 40,
-    borderRadius: 30,
+    borderRadius: 20,
   },
   input: {
     height: 40,
@@ -102,9 +102,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza os detalhes do jogador
   },
   playerImage: {
-    width: 100, // Largura da imagem do jogador
-    height: 100, // Altura da imagem do jogador
-    borderRadius: 50, // Deixa a imagem redonda
+    width: 200, // Largura da imagem do jogador
+    height: 200, // Altura da imagem do jogador
+    borderRadius: 20, // Deixa a imagem redonda
     marginVertical: 10, // Espaço entre elementos verticais
   },
   label: {
