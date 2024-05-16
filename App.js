@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import StyleTela from './StyleTela'; // Tela para pesquisar jogadores
 import StyleTelaTime from './StyleTelaTime'; // Tela para pesquisar times
+
+// Caminho para a imagem de fundo no seu projeto
+const backgroundImage = require('./assets/Champions1.jpg');
 
 const App = () => {
   const [currentScreen, setCurrentScreen] = useState('home'); // Estado para controlar a tela atual
@@ -10,39 +13,46 @@ const App = () => {
   const showPlayerSearch = () => setCurrentScreen('styleTela');
   const showTeamSearch = () => setCurrentScreen('styleTelaTime');
   const showHome = () => setCurrentScreen('home');
-
+ 
   return (
     <SafeAreaView style={styles.container}>
       {currentScreen === 'home' && (
-        <View style={styles.homeContainer}>
-          <Text style={styles.title}>Bem-vindo ao App de Futebol</Text>
-          <Text style={styles.subtitle}>Selecione uma opção para continuar</Text>
+        <ImageBackground source={backgroundImage} style={styles.background}>
+          <View style={styles.homeContainer}>
+            <Text style={styles.title}>Bem-vindo ao FootData</Text>
+            <Text style={styles.subtitle}>Seu aplicativo para ficar por dentro da bola!</Text>
+            <Text style={styles.subtitle}>Selecione uma opção para continuar</Text>
 
-          <TouchableOpacity style={styles.button} onPress={showPlayerSearch}>
-            <Text style={styles.buttonText}>Pesquisar Jogador</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={showPlayerSearch}>
+              <Text style={styles.buttonText}>Pesquisar Jogador</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={showTeamSearch}>
-            <Text style={styles.buttonText}>Pesquisar Time</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity style={styles.button} onPress={showTeamSearch}>
+              <Text style={styles.buttonText}>Pesquisar Time</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       )}
 
       {currentScreen === 'styleTela' && (
         <View style={styles.screenContainer}>
+          <View style={styles.navbar}>
+            <TouchableOpacity style={styles.navButton} onPress={showHome}>
+              <Text style={styles.navButtonText}>⬅ Voltar</Text>
+            </TouchableOpacity>
+          </View>
           <StyleTela />
-          <TouchableOpacity style={styles.backButton} onPress={showHome}>
-            <Text style={styles.backButtonText}>Voltar</Text>
-          </TouchableOpacity>
         </View>
       )}
 
       {currentScreen === 'styleTelaTime' && (
         <View style={styles.screenContainer}>
+          <View style={styles.navbar}>
+            <TouchableOpacity style={styles.navButton} onPress={showHome}>
+              <Text style={styles.navButtonText}>⬅ Voltar</Text>
+            </TouchableOpacity>
+          </View>
           <StyleTelaTime />
-          <TouchableOpacity style={styles.backButton} onPress={showHome}>
-            <Text style={styles.backButtonText}>Voltar</Text>
-          </TouchableOpacity>
         </View>
       )}
     </SafeAreaView>
@@ -52,24 +62,54 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5', // Cor de fundo
+  },
+  background: {
+    flex: 1,
+    justifyContent: 'center', // Centraliza o conteúdo verticalmente
+    alignItems: 'center', // Centraliza o conteúdo horizontalmente
   },
   homeContainer: {
     flex: 1,
     justifyContent: 'center', // Centraliza verticalmente
     alignItems: 'center', // Centraliza horizontalmente
+    borderRadius: 10,
+    padding: 20,
   },
   screenContainer: {
     flex: 1,
   },
+  navbar: {
+    height: 70,
+    backgroundColor: '#09104d',
+    justifyContent: 'center',
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    
+    
+    
+  },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    
+  },
+  navButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
   },
   subtitle: {
     fontSize: 18,
-    color: '#666',
+    color: 'white',
     marginBottom: 30,
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#3498db',
@@ -77,16 +117,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginBottom: 20,
+    height: 70,
+    width: 150,
+    justifyContent: 'center',
   },
   backButton: {
-    backgroundColor: '#e74c3c', // Cor para o botão de voltar
+    backgroundColor: '#e74c3c',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    position: 'absolute', // Define o posicionamento absoluto
-    bottom: 20, // Define a posição na parte inferior
-    left: 20, // Distância da borda esquerda
-    right: 20, // Distância da borda direita
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
   },
   buttonText: {
     color: 'white',
